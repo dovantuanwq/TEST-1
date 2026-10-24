@@ -1,0 +1,13 @@
+# FilmCam 2.0.0 · Fast Capture & AI Assist 2
+
+Android 10+ ARM64, including OPPO Find X8 Pro. Install FilmCam-2.0.0-OPPO.apk over the earlier cloud build to retain imported LUTs; package and signing key are unchanged.
+
+Photo defaults to Fast (NHANH): CameraX MINIMIZE_LATENCY, JPEG 100 and highest negotiated native dimensions. HDR/HQ retains quality-oriented processing and supported vendor extensions. A bounded two-photo queue rearms the shutter after acquisition while film grading/export runs in the background. Every shot retains its own LUT/settings. Tiled GPU grading preserves native dimensions with CPU fallback; Original avoids re-encoding. High-zoom focus reuse requires fresh confirmed metadata observed after zoom/lens settling.
+
+AI Assist 2 uses bundled offline face/object models, eye anchors, portrait/group/object framing, touch selection, edge/scale warnings, mirrored phone-pan direction and an 800 ms level/alignment hold. Scores are geometric guidance, not trained aesthetic scores or Huawei proprietary models. Preview inference adapts its input and cooldown to measured latency. During recording, slow inference temporarily yields to the encoder while horizon guidance remains; fast devices retain live inference. The card explains this state. Saved-media dimensions are unaffected. The glass UI adds score/hold rings, subject brackets, a quick speed button and background completion status.
+
+Pro ISO/shutter/WB/MF/EV, RAW/DNG, film presets, custom LUTs, zoom and the existing native video encoder remain. No Internet/network-state permission. 4K60 and sensor/tele/HDR availability depend on the phone's public camera capabilities.
+
+Validation: 151 JVM tests and Lint pass with zero errors. Eight unique targeted Android cases have passing evidence across runs: tiled GL output and custom LUT domains (2), bundled eye landmarks and touch/mirrored composition (2), two real acquisitions with blocked background export and distinct per-shot colors (1), Pro metadata/JPEG EXIF/reset (1), high-zoom focus confirmation/rejection (1), and valid multi-frame 720p video using the slow-inference guard (1). The final video is 12,182 ms and passes duration/sample-timestamp validation. Earlier combined runs exposed a GLSL reserved identifier, immutable GPU-test fixtures, an overly short TCG cold-start deadline and video frame starvation; these were diagnosed, corrected or replaced by a focused guard regression. This is not a claim of one all-green combined run. Physical OPPO optics, performance, firmware-specific HDR/tele controls and 4K60 are not tested; emulator timings are not phone benchmarks.
+
+Version 2.0.0 (11). Debug-signed personal testing build distributed at the user's request.
