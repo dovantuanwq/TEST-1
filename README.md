@@ -1,0 +1,13 @@
+# FilmCam 2.3.0 · Learned Aesthetic Composition
+
+Android 10+ ARM64, including OPPO Find X8 Pro. Install over the previous cloud build to retain private imported LUTs; package and signing key are unchanged.
+
+Photo composition decisions now use NIMA MobileNet trained on human AVA aesthetic ratings, with an estimated 1–10 rating for the actual frame and nearby aspect-preserving crops. Object detection is retained to protect known people and the selected subject, rather than being treated as an aesthetic judge. NIMA source weights, Apache-2.0 license and conversion provenance are bundled. The float32 conversion matches nine Keras image/crop predictions with maximum mean-rating error below 0.000007. The model's predicted rating is subjective, not calibrated certainty or a guarantee of a good photograph.
+
+A proposed change needs at least 0.25 predicted rating improvement, independent stable evaluations and subject protection. Camera movement invalidates stale advice. No clear improvement keeps the existing frame. The overlay shows the proposed crop, physical pan direction accounts for front mirroring, and center-only zoom never pretends to apply an off-center crop. Automatic JPEG zoom is fresh-evidence-only, modest, capped at 1.25 times its session anchor and yields to manual controls. Model failure, darkness, stale data or an unverified opinion cannot authorize it. Photo no longer chases fixed thirds or fixed subject-size targets for an aesthetic decision.
+
+Assessment uses the current camera RGB frame on a separate bounded worker. No camera image is uploaded and no server, API key or model download is required at runtime. Scene/aesthetic work pauses for video and export. Native photo resolution, RAW/Pro controls, LUTs, video codecs and the existing timestamp/recording guards remain. The existing card exposes estimated aesthetic rating/gain, loading/retry states and local diagnostics.
+
+Validation: 203 JVM tests and Lint pass, with zero errors. Actual Android NIMA ratings match trained reference fixtures; actual RGB goes through the production aesthetic worker to StateFlow and becomes unavailable on stop. Camera integration exercises real zoom/manual hold/resume and JPEG export using an explicitly injected stable aesthetic opinion. Video regression validates a real multi-frame MP4 with adaptive inference. CPU-emulated test-only dataflow lifetimes do not relax app freshness; emulator/host results are not physical OPPO speed, 4K60 or human preference benchmarks. The detector can miss subjects and NIMA can disagree with the photographer.
+
+Version 2.3.0 (14), same-key debug-signed personal testing installer distributed at the user's request. SHA-256 sidecar included.
