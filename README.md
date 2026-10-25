@@ -1,0 +1,13 @@
+# FilmCam 2.3.1 · Photo guidance and stable tracking
+
+Android 10+ ARM64, including OPPO Find X8 Pro. Install over the earlier cloud build to keep imported LUTs. Package and signing key are unchanged.
+
+Photo now shows subject brackets and physical pan/level guidance independently of NIMA readiness. A verified aesthetic crop takes precedence; otherwise explicitly geometric subject placement remains available. Loading, deferred, moving, failed and baseline-only aesthetic results no longer blank Photo guidance. This fallback does not authorize automatic zoom: Photo zoom still requires fresh, stable trained-model improvement.
+
+Brief primary/group-member misses retain the display and selected identity for at most 400 ms from the last real observation. This coasting state never refreshes the evidence timestamp, locks composition or authorizes zoom. Persistent loss removes it. Same-class object assignment prioritizes strongest geometric matches instead of alternating confidence order; time-dependent center filtering, display interpolation and pan-direction hysteresis reduce jumps. Different identities/viewport changes reset visual interpolation rather than sweeping between unrelated subjects.
+
+Primary detection takes priority. Scene and aesthetic inference share one optional slot and defer if the detector is falling behind. Existing RAW/Pro, LUT handling, image resolution, autofocus and recording timestamp/frame-stall safeguards remain. No runtime network, API key or model download is required.
+
+Validation: 219 JVM tests pass; Lint has no errors. Four Android regression cases, across a combined run and an isolated video rerun, cover Photo → Video → Photo subject guidance without a NIMA rating, same-identity overlay interpolation versus new-identity reset, real CameraX automatic zoom/manual override/JPEG output, and adaptive-AI recording with valid multi-frame MP4 output. The first combined run passed the three presentation/camera cases but timed out waiting for video preview inference while emulator package compilation was active; the video case passed separately. Presentation tests use explicit observations with the actual controller/Activity; camera zoom uses an explicitly injected stable aesthetic opinion. Video requires actual preview inference. NIMA/EfficientDet/MobileNet model assets are unchanged from 2.3.0. ARM64 code/asset entry hashes match the frozen tested x86 APK. No physical OPPO is attached; CPU emulation is not a phone speed, tracking accuracy, optics or 4K60 benchmark.
+
+Version 2.3.1 (15), same-key debug-signed personal testing installer supplied at the user's request. SHA-256 sidecar included.
