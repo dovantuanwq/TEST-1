@@ -2,6 +2,8 @@ name: Build FramePilot Android APK
 on:
   push:
     branches: ['build/framepilot-ai-20261119']
+    paths:
+      - '.github/workflows/framepilot-build.yml'
   workflow_dispatch:
 permissions:
   contents: write
