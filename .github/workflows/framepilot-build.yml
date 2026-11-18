@@ -33,6 +33,14 @@ jobs:
           test -f framepilot/app/build.gradle.kts
       - name: Apply Studio upgraded camera source
         run: base64 -d framepilot-studio-source-patch.b64 | tar -xJf - -C framepilot
+      - name: Apply original Film Edition UI and color recipes
+        shell: bash
+        run: |
+          cat framepilot-build-patch/part{1,2,3,4}.b64 | tr -d '\n' | base64 -d > /tmp/film-patch.tar.xz
+          echo '0c1f77c3e885c595d656525769ddfacb3dec1e76ebca11a6996653bc46babbad  /tmp/film-patch.tar.xz' | sha256sum -c -
+          tar -xJf /tmp/film-patch.tar.xz -C framepilot
+          grep -q 'Golden 200' framepilot/app/src/main/java/com/framepilot/ai/PhotoStyles.kt
+          grep -q 'AI BỐ CỤC' framepilot/app/src/main/java/com/framepilot/ai/MainActivity.kt
       - name: Build Android APK
         run: gradle -p framepilot --no-daemon :app:assembleDebug
       - uses: actions/upload-artifact@v4
